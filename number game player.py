@@ -53,10 +53,13 @@ while len(possible_numbers) > 1:
     if (new_input.lower() == "less" and number < middle_number)
     or (new_input.lower() == "more" and number > middle_number)
     or (new_input.lower() == "correct" and number == middle_number)
-]
+    ]
+
+    #add a guess
+    used_guesses += 1
 
 if len(possible_numbers) == 0:
     print(f"You either cheated or made a mistake in putting in words")
 
 else:
-    print(f"The number you are thinking about is {possible_numbers[0]}. It took me less than {guesses}, it only took me {used_guesses}.")
+    print(f"The number you are thinking about is {possible_numbers[0]}. It took me less than {guesses} guesses, it only took me {used_guesses} guesses.")
