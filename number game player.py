@@ -28,21 +28,12 @@ possible_numbers = []
 for i in range(new_numbers[0], new_numbers[1] + 1):
     possible_numbers.append(i)
 
-#number for later to round based on this number
-base_middle_Number = math.ceil(sum(possible_numbers) / (len(possible_numbers) + 1))
 
 #repeat this ontil you find the number
 while len(possible_numbers) > 1:
 
     #get middle number
-    middle_number = possible_numbers[len(possible_numbers) // 2]
-
-    #make it a whole number
-    if middle_number != base_middle_Number and middle_number % 1 != 0:
-        if middle_number < base_middle_Number:
-            middle_number = math.floor(middle_number)
-        else:
-            middle_number = math.ceil(middle_number)
+    middle_number = math.floor(sum(possible_numbers) / (len(possible_numbers))) 
 
     #ask the user
     new_input = input(f"\nIs it {int(middle_number)}: ")
@@ -62,4 +53,4 @@ if len(possible_numbers) == 0:
     print(f"You either cheated or made a mistake in putting in words")
 
 else:
-    print(f"The number you are thinking about is {possible_numbers[0]}. It took me less than {guesses} guesses, it only took me {used_guesses} guesses.")
+    print(f"The number you are thinking about is {possible_numbers[0]}. It took me less than {guesses}, it only took me {used_guesses}.")
