@@ -80,4 +80,4 @@ except KeyboardInterrupt:
     print("program ended")
 
 #good ones: mac 271 at max - 1 zoom
-#chroombook: 
+#chroombook: 87 at 50% zoom
