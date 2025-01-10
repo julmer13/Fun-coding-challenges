@@ -9,6 +9,8 @@ total = 1
 for i in range(1, (number + 1)):
     total *= i
 
+print_total = total
+
 digits = []
 while total > 0:
     digit = total % 10
@@ -17,4 +19,4 @@ while total > 0:
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
-print(f"The sum of the digits in {number}'s factorial is {sum(digits)}")
+print(f"{number} factorial is {print_total}, the sum of these digits is {sum(digits)}")
