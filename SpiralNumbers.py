@@ -30,6 +30,7 @@ try:
     while True:
         #house keeping 
         number = 2
+        total = 0
 
         #get the grid size
         while number % 2 == 0: 
@@ -41,13 +42,15 @@ try:
         grid = [[0 for _ in range(cols)] for _ in range(rows)]
 
         current_value = number * number  # Start with the highest number
-
+        total += current_value
         # Start filling the spiral from the bottom-right corner
         for i in range((number + 1) // 2):  # Number of layers in the spiral
             # Bottom row (right to left)
             for x in range(number - 1 - i, i - 1, -1):
                 grid[number - 1 - i][x] = current_value
                 current_value -= 1
+
+            total += current_value + 1
 
             # Left wall (bottom to top)
             for y in range(number - 2 - i, i - 1, -1):
@@ -56,15 +59,22 @@ try:
 
             current_value += 1
 
+            total += current_value
+            
+
             # Top row (left to right)
             for x in range(i, number - i):
                 grid[i][x] = current_value
                 current_value -= 1
 
+            total += current_value + 1
+
             # Right wall (top to bottom)
             for y in range(i + 1, number - 1 - i):
                 grid[y][number - 1 - i] = current_value
                 current_value -= 1
+
+            total += current_value
 
         #spaces needed
         spaces_needed = len(str(number * number))
@@ -89,6 +99,9 @@ try:
         for row in grid:
             #print the grid
             print(" ".join(row))
+
+        total -= 3
+        print(f"The sum of the diagonals in this spiral is {total}")
 
 except KeyboardInterrupt:
     print("program ended")
