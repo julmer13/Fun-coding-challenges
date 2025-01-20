@@ -1,6 +1,7 @@
 #call in things
 from fractions import Fraction
 import math
+import os
 
 #def things
 def is_decimal(num):
@@ -17,6 +18,8 @@ while True:
 #housekeeeping
     start = "n"
 
+    #clear screen
+    os.system('cls' if os.name == 'nt' else 'clear')
 
     while start.lower() != "y":
         #get the points
