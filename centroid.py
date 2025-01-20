@@ -12,14 +12,15 @@ def convert_to_fraction(num):
     #Convert a decimal to a fraction if needed
     return Fraction(num).limit_denominator() if is_decimal(num) else num
 
+#clear screen
+os.system('cls' if os.name == 'nt' else 'clear')
+
 #make it loop
 while True:
 
 #housekeeeping
     start = "n"
 
-    #clear screen
-    os.system('cls' if os.name == 'nt' else 'clear')
 
     while start.lower() != "y":
         #get the points
