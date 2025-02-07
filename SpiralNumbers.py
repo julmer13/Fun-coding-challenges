@@ -83,7 +83,7 @@ try:
         for h in range(0, number):
             for e in range(0, number):
                 c = grid[h][e]
-                new_number = str(c).zfill(spaces_needed)
+                new_number = str(c).center(spaces_needed)
                 if c % 2 == 0:
                     grid[h][e] = colorize(new_number, "yellow")
                 elif is_prime(c):
