@@ -27,6 +27,7 @@ def next_wave(number_list, new_number, first_list):
 os.system('cls' if os.name == 'nt' else 'clear')
 input_number = int(input(f"Give me the top/bottom value for a wave of numbers: "))
 list_size = int(input(f"What size do you want the list to be: "))
+speed = float(input(f"how fast do you want the numbers to go acroos the screen: "))
 
 list_of_possible_numbers = []
 
@@ -47,5 +48,5 @@ while True:
         os.system('cls' if os.name == 'nt' else 'clear')
         string_list = [str(num).rjust(spaces_needed) for num in changing_list]
         print(" ".join(string_list))
-        time.sleep(1)
+        time.sleep(speed)
         changing_list = next_wave(changing_list, i, numbers_to_use)
