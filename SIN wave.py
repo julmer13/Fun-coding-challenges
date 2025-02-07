@@ -38,12 +38,14 @@ for i in range(1, input_number):
 numbers_to_use = first_wave(list_of_possible_numbers, len(list_of_possible_numbers) * 2)
 
 starting_list = first_wave(list_of_possible_numbers, list_size)
-print(first_wave(list_of_possible_numbers, list_size))
 changing_list = starting_list
+
+spaces_needed = len(str(input_number)) + 1
 
 while True:
     for i in range(-1, (len(numbers_to_use) * -1) - 1, -1):
-        print(next_wave(changing_list, i, numbers_to_use))
-        time.sleep(0.5)
+        os.system('cls' if os.name == 'nt' else 'clear')
+        string_list = [str(num).rjust(spaces_needed) for num in changing_list]
+        print(" ".join(string_list))
+        time.sleep(1)
         changing_list = next_wave(changing_list, i, numbers_to_use)
-    
