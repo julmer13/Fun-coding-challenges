@@ -80,17 +80,21 @@ for times in range((list_size // input_number) + 2):
         move_bars(grid, i, numbers_to_use, len(grid))
         changing_list = next_wave(changing_list, i, numbers_to_use)
 
-while True:
-    for i in range(-1, (len(numbers_to_use) * -1) - 1, -1):
-        os.system('cls' if os.name == 'nt' else 'clear')
+try:
+    while True:
+        for i in range(-1, (len(numbers_to_use) * -1) - 1, -1):
+            os.system('cls' if os.name == 'nt' else 'clear')
 
-        for row in grid:
-            print(gap.join(row))
+            for row in grid:
+                print(gap.join(row))
 
-        string_list = [str(num).center(spaces_needed) for num in changing_list]
-        print(gap + gap + gap +  " ".join(string_list))
+            string_list = [str(num).center(spaces_needed) for num in changing_list]
+            print(gap + gap + gap +  " ".join(string_list))
 
-        time.sleep(speed)
+            time.sleep(speed)
 
-        move_bars(grid, i, numbers_to_use, len(grid))
-        changing_list = next_wave(changing_list, i, numbers_to_use)
+            move_bars(grid, i, numbers_to_use, len(grid))
+            changing_list = next_wave(changing_list, i, numbers_to_use)
+
+except KeyboardInterrupt:
+    print("program stopped")
