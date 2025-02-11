@@ -25,7 +25,7 @@ def move_snake(curent_place_x, curent_place_y, direction, grid, places):
         places.append(curent_place_x + 1)
         places.append(curent_place_y)
 
-def get_key(timeout=0.5):
+def get_key(timeout):
     fd = sys.stdin.fileno()
     old_settings = termios.tcgetattr(fd)
     try:
@@ -41,7 +41,8 @@ def get_key(timeout=0.5):
     return key
 
 move = "up"
-grid = [[" " for _ in range(10)] for _ in range(10)]
+grid = [[" " for _ in range(20)] for _ in range(20)]
+speed = 0.5
 grid[5][4] = "#"
 current_places = [4, 5]
 for row in grid:
@@ -49,7 +50,8 @@ for row in grid:
     print(row)
 
 while True:
-    key = get_key()
+    start_time = time.perf_counter()
+    key = get_key(speed)
     if key == '\x1b[A':
         move_snake(current_places[-2], current_places[-1], "up", grid, current_places)
         move = "up"
@@ -64,6 +66,10 @@ while True:
         move = "right"
     else:
         move_snake(current_places[-2], current_places[-1], move, grid, current_places)
+
+    end_time = time.perf_counter()
+    if end_time - start_time < speed:
+        time.sleep(speed - (end_time - start_time))
     
     if len(current_places) // 2 > 4:
         tail_x = current_places.pop(0)
