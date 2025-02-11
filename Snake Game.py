@@ -49,6 +49,7 @@ def make_colors(text, color):
         "red": "\033[41m",  
         "white":"\33[47m",
         "reset": "\033[0m",
+        "grey": "\033[100m"
     }
     return f"{colors[color]}{text}{colors['reset']}"
 
@@ -129,13 +130,14 @@ try:
                 print(f"Length: 1 score: 0 High score: {high_score}")
 
             if current_places[-1] == 0 or current_places[-2] == 0 or current_places[-1] == size - 1 or current_places[-2] == size - 1:
+                grid[current_places[-1]][current_places[-2]] = make_colors(grid_spaces, "grey")
                 game_state = "loss"
             
             points_seen = set()
             for i in range(0, len(current_places), 2):
                 point = (current_places[i], current_places[i + 1])
                 if point in points_seen:
-                    grid[current_places[i + 1]][current_places[i]] = make_colors("# ", "green")
+                    grid[current_places[i + 1]][current_places[i]] = make_colors(grid_spaces, "grey")
                     game_state = "loss"
                     break
                 elif current_places[i] == apple_pos_x and current_places[i + 1] == apple_pos_y:
