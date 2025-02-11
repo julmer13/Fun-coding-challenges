@@ -42,7 +42,7 @@ def get_key(timeout):
 
 move = "up"
 grid = [[" " for _ in range(20)] for _ in range(20)]
-speed = 0.5
+speed = float(input(f"what do you want the speed to be"))
 grid[5][4] = "#"
 current_places = [4, 5]
 for row in grid:
@@ -52,16 +52,16 @@ for row in grid:
 while True:
     start_time = time.perf_counter()
     key = get_key(speed)
-    if key == '\x1b[A':
+    if key == '\x1b[A' and move != "down":
         move_snake(current_places[-2], current_places[-1], "up", grid, current_places)
         move = "up"
-    elif key == '\x1b[B':
+    elif key == '\x1b[B' and move != "up":
         move_snake(current_places[-2], current_places[-1], "down", grid, current_places)
         move = "down"
-    elif key == '\x1b[D':
+    elif key == '\x1b[D' and move != "right":
         move_snake(current_places[-2], current_places[-1], "left", grid, current_places)
         move = "left"
-    elif key == '\x1b[C':
+    elif key == '\x1b[C' and move != "left":
         move_snake(current_places[-2], current_places[-1], "right", grid, current_places)
         move = "right"
     else:
