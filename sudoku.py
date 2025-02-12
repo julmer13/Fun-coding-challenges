@@ -9,7 +9,7 @@ def colorizer(n):
     }
     return f"{colors['red']}{n}{colors['reset']}"
 
-def is_valid():
+def is_valid_board():
     #for all the rows
     for row in grid:
         #all the number it can be
@@ -72,28 +72,36 @@ def is_valid():
     #if all that makes it through return true
     return True
 
-#this solves it 
+def is_valid(grid, row, col, num):
+    # Check the row
+    if num in grid[row]:
+        return False
+
+    # Check the column
+    if num in [grid[i][col] for i in range(9)]:
+        return False
+
+    # Check the 3x3 subgrid
+    start_row, start_col = (row // 3) * 3, (col // 3) * 3
+    for i in range(3):
+        for j in range(3):
+            if grid[start_row + i][start_col + j] == num:
+                return False
+
+    return True
+
 def solve_it():
-    #for the diffent rows
     for row in range(9):
-        #for the different columns
         for col in range(9):
-            #checks if it is numbers is able to be changed
             if grid[row][col] == 0:
-                #run throught the numbers
                 for num in range(1, 10):
-                    #see if the number is possible
-                    grid[row][col] = num
-                    if is_valid():
-                        #use backtracking
+                    if is_valid(grid, row, col, num):
+                        grid[row][col] = num
                         if solve_it():
                             return True
-                    #if it is not valid reset the grid
-                    grid[row][col] = 0
-                #if no number is possible return false
-                return False
-    #when all spots are filled return true
-    return True
+                        grid[row][col] = 0  # Undo move if it leads to a dead end
+                return False  # No number fits, trigger backtracking
+    return True  # All cells are filled
 
 
 #housekeeping
@@ -194,7 +202,7 @@ for i in range(9):
 print(f"Solving...")
 
 #if it can be solved:
-if solve_it():
+if solve_it() and is_valid_board():
     #colorizer it
     for x in range(9):
         for y in range(9):
