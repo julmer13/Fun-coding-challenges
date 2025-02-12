@@ -7,25 +7,34 @@ import select
 import os
 import random
 
+os.system('cls' if os.name == 'nt' else 'clear')
 grid_spaces = "  "
+other_spaces = "  "
+join_space = ""
 high_score = 0
+size = (int(input(f"what do you want the size to be: "))) + 2
+grided = input("do you want a grid on the screen y/n: ")
+if grided == "y":
+    grid_spaces = "__"
+    other_spaces = "  "
+    join_space = "|"
 
 #def things
 def move_snake(curent_place_x, curent_place_y, direction, grid, places):
     if direction == "up":
-        grid[curent_place_y - 1][curent_place_x] = make_colors(grid_spaces, "green")
+        grid[curent_place_y - 1][curent_place_x] = make_colors(other_spaces, "green")
         places.append(curent_place_x)
         places.append(curent_place_y - 1)
     if direction == "down":
-        grid[curent_place_y + 1][curent_place_x] = make_colors(grid_spaces, "green")
+        grid[curent_place_y + 1][curent_place_x] = make_colors(other_spaces, "green")
         places.append(curent_place_x)
         places.append(curent_place_y + 1)
     if direction == "left":
-        grid[curent_place_y][curent_place_x - 1] = make_colors(grid_spaces, "green")
+        grid[curent_place_y][curent_place_x - 1] = make_colors(other_spaces, "green")
         places.append(curent_place_x - 1)
         places.append(curent_place_y )
     if direction == "right":
-        grid[curent_place_y][curent_place_x + 1] = make_colors(grid_spaces, "green")
+        grid[curent_place_y][curent_place_x + 1] = make_colors(other_spaces, "green")
         places.append(curent_place_x + 1)
         places.append(curent_place_y)
 
@@ -67,25 +76,23 @@ def add_game_over(grid, size):
 try:
     while True:
         move = "non"
-        os.system('cls' if os.name == 'nt' else 'clear')
         speed = 0.1
         length = 1
-        size = int(input(f"what do you want the size to be: "))
         grid = [[grid_spaces for _ in range(size)] for _ in range(size)]
         game_state = "wining"
-        grid[(size // 2) - 1][(size // 2) - 1] = make_colors(grid_spaces, "green")
+        grid[(size // 2) - 1][(size // 2) - 1] = make_colors(other_spaces, "green")
         current_places = [(size // 2) - 1, (size // 2) - 1]
         for y in range(size):
-            grid[y][0] = make_colors(grid_spaces, "white")
-            grid[y][size -1] = make_colors(grid_spaces, "white")
-            grid[0][y] = make_colors(grid_spaces, "white")
-            grid[size - 1][y] = make_colors(grid_spaces, "white")
-            grid[size - 1][0] = make_colors(grid_spaces, "white")
+            grid[y][0] = make_colors(other_spaces, "white")
+            grid[y][size -1] = make_colors(other_spaces, "white")
+            grid[0][y] = make_colors(other_spaces, "white")
+            grid[size - 1][y] = make_colors(other_spaces, "white")
+            grid[size - 1][0] = make_colors(other_spaces, "white")
 
         apple_pos_x = random.randint(1, size - 2)
         apple_pos_y = random.randint(1, size - 2)
 
-        grid[apple_pos_y][apple_pos_x] = make_colors(grid_spaces, "red")
+        grid[apple_pos_y][apple_pos_x] = make_colors(other_spaces, "red")
 
         while game_state == "wining":
             if len(current_places) // 2 > length + 1 and length != 1:
@@ -123,14 +130,14 @@ try:
 
             for row in grid:
                 #print the grid
-                print("".join(row))
+                print(join_space.join(row))
             if length > 1:
                 print(f"Length: {length + 2} Score: {length - 1} High score: {high_score}")
             else:
                 print(f"Length: 1 score: 0 High score: {high_score}")
 
             if current_places[-1] == 0 or current_places[-2] == 0 or current_places[-1] == size - 1 or current_places[-2] == size - 1:
-                grid[current_places[-1]][current_places[-2]] = make_colors(grid_spaces, "grey")
+                grid[current_places[-1]][current_places[-2]] = make_colors(other_spaces, "grey")
                 game_state = "loss"
             
             points_seen = set()
@@ -147,7 +154,8 @@ try:
                             high_score = length - 1
                     apple_pos_x = random.randint(1, size - 2)
                     apple_pos_y = random.randint(1, size - 2)
-                    grid[apple_pos_y][apple_pos_x] = make_colors(grid_spaces, "red")
+                    grid[apple_pos_y][apple_pos_x] = make_colors(other_spaces, "red")
+                    grid[current_places[-1]][current_places[-2]] = make_colors(other_spaces, "green")
                 points_seen.add(point) 
 
         os.system('cls' if os.name == 'nt' else 'clear')
@@ -156,7 +164,7 @@ try:
 
         for row in grid:
             #print the grid
-            print("".join(row))
+            print(join_space.join(row))
 
         if length > 1:
             print(f"Length: {length + 2} Score: {length - 1} High score: {high_score}")
