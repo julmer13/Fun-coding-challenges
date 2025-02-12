@@ -124,7 +124,7 @@ try:
 
             end_time = time.perf_counter()
             if end_time - start_time < speed:
-                time.sleep(speed - (end_time - start_time))
+                time.sleep(max(0, speed - (time.perf_counter() - start_time)))
             
             os.system('cls' if os.name == 'nt' else 'clear')
 
