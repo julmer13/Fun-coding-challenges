@@ -4,6 +4,7 @@ import sys
 import tty
 import termios
 import select
+import shutil
 import os
 import random
 
@@ -12,7 +13,6 @@ grid_spaces = "  "
 other_spaces = "  "
 join_space = ""
 high_score = 0
-size = (int(input(f"what do you want the size to be: "))) + 2
 grided = input("do you want a grid on the screen y/n: ")
 if grided == "y":
     grid_spaces = "__"
@@ -72,6 +72,15 @@ def add_game_over(grid, size):
     grid[(size // 2) - 1][((size // 2) - 1) + 2] = "v "
     grid[(size // 2) - 1][((size // 2) - 1) + 3] = "e "
     grid[(size // 2) - 1][((size // 2) - 1) + 4] = "r "
+
+def get_terminal_size():
+    ter_size = shutil.get_terminal_size(fallback=(80, 24)) 
+    if ter_size.columns < ter_size.lines:
+        return ter_size.columns
+    else:
+        return ter_size.lines
+    
+size = get_terminal_size() - 2
 
 try:
     while True:
