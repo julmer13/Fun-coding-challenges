@@ -64,14 +64,14 @@ def make_colors(text, color):
 
 def add_game_over(grid, size):
     grid[(size // 2) - 1][(size // 2) - 1] = grid_spaces
-    grid[(size // 2) - 1][((size // 2) - 1) - 1] = "e "
-    grid[(size // 2) - 1][((size // 2) - 1) - 2] = "m "
-    grid[(size // 2) - 1][((size // 2) - 1) - 3] = "a "
-    grid[(size // 2) - 1][((size // 2) - 1) - 4] = "G "
-    grid[(size // 2) - 1][((size // 2) - 1) + 1] = "O "
-    grid[(size // 2) - 1][((size // 2) - 1) + 2] = "v "
-    grid[(size // 2) - 1][((size // 2) - 1) + 3] = "e "
-    grid[(size // 2) - 1][((size // 2) - 1) + 4] = "r "
+    grid[(size // 2) - 1][((size // 2) - 1) - 1] = "e" + (grid_spaces[0])
+    grid[(size // 2) - 1][((size // 2) - 1) - 2] = "m" + (grid_spaces[0])
+    grid[(size // 2) - 1][((size // 2) - 1) - 3] = "a" + (grid_spaces[0])
+    grid[(size // 2) - 1][((size // 2) - 1) - 4] = "G" + (grid_spaces[0])
+    grid[(size // 2) - 1][((size // 2) - 1) + 1] = "O" + (grid_spaces[0])
+    grid[(size // 2) - 1][((size // 2) - 1) + 2] = "v" + (grid_spaces[0])
+    grid[(size // 2) - 1][((size // 2) - 1) + 3] = "e" + (grid_spaces[0])
+    grid[(size // 2) - 1][((size // 2) - 1) + 4] = "r" + (grid_spaces[0])
 
 def get_terminal_size():
     ter_size = shutil.get_terminal_size(fallback=(80, 24)) 
@@ -111,16 +111,16 @@ try:
 
             start_time = time.perf_counter()
             key = get_key(speed)
-            if key == '\x1b[A' and move != "down":
+            if key == '\x1b[A' and (move != "down" or length == 1):
                 move_snake(current_places[-2], current_places[-1], "up", grid, current_places)
                 move = "up"
-            elif key == '\x1b[B' and move != "up":
+            elif key == '\x1b[B' and (move != "up" or length == 1):
                 move_snake(current_places[-2], current_places[-1], "down", grid, current_places)
                 move = "down"
-            elif key == '\x1b[D' and move != "right":
+            elif key == '\x1b[D' and (move != "right" or length == 1):
                 move_snake(current_places[-2], current_places[-1], "left", grid, current_places)
                 move = "left"
-            elif key == '\x1b[C' and move != "left":
+            elif key == '\x1b[C' and (move != "left" or length == 1):
                 move_snake(current_places[-2], current_places[-1], "right", grid, current_places)
                 move = "right"
             elif move != "non":
