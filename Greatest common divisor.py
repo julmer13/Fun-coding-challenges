@@ -1,5 +1,6 @@
 #import things
 import math
+import os
 
 #def things
 def find_GCD(a, b):
@@ -20,6 +21,8 @@ def find_GCD(a, b):
             if first_list[number] == second_list[ints]:
                 return first_list[number]
 
+os.system('cls' if os.name == 'nt' else 'clear')
 two_numbers = input(f"Give me to numbers and I will tell you there greatest common divisor: ").split()
+os.system('cls' if os.name == 'nt' else 'clear')
 print(f"The greatest common divisor of {two_numbers[0]} and {two_numbers[1]} is: {int(find_GCD(two_numbers[0], two_numbers[1]))}")
 
