@@ -82,6 +82,11 @@ for y in range(0, len(grid)):
     grid[y][(len(grid) // 2) - 1] = make_color(grid[y][(len(grid) // 2) - 1], "white")
     grid[y][(len(grid) // 2)] = make_color(grid[y][(len(grid) // 2)], "white")
 
-show_color(10, grid)
-for row in grid:
-    print("".join(row))
+round = 1
+
+try:
+    while True:
+        list_of_colors_shown = []
+
+except KeyboardInterrupt:
+    print(f"Game Over")
