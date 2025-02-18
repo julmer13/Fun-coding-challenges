@@ -18,6 +18,8 @@ os.system('cls' if os.name == 'nt' else 'clear')
 #make it loop
 while True:
 
+# TODO: REMOVE this commit
+
 #housekeeeping
     start = "n"
 
