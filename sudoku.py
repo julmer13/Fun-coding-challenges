@@ -140,7 +140,7 @@ while is_this_correct != "1":
         number = input("Enter the column it's on first, then the row, and then the number you want it to be.(to reset a number put in a 0): ")
 
         #split number up
-        point = number.split(" ")
+        point = [str(digit) for digit in str(number)]
         #if is is three points do this
         if len(point) >= 3:
             #resest number
