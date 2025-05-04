@@ -54,22 +54,22 @@ radius = input(f"What is the radius of the shape: ")
 os.system('cls' if os.name == 'nt' else 'clear')
 
 if num_of_sides != "":
-    num_of_sides = int(num_of_sides)
+    num_of_sides = float(num_of_sides)
 else:
     num_of_sides = "unknown"
 
 if len_of_side != "":
-    len_of_side = int(len_of_side)
+    len_of_side = float(len_of_side)
 else:
     len_of_side = "unknown"
 
 if apothem != "":
-    apothem = int(apothem)
+    apothem = float(apothem)
 else:
     apothem = "unknown"
 
 if radius != "":
-    radius = int(radius)
+    radius = float(radius)
 else:
     radius = "unknown"
 
