@@ -5,7 +5,6 @@ import os
 def Even_Fibonacci_Numbers_Sum(top_value):
     first_term = 1
     second_term = 1
-    thrid_term = 0
     sum = 0
     while first_term + second_term <= top_value:
         thrid_term = first_term + second_term
