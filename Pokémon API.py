@@ -1,5 +1,5 @@
 #import things
-from colorama import Fore, Style, init
+from colorama import Fore, Style, Back, init
 import json
 
 #Get the file I need
@@ -22,6 +22,22 @@ def color_text(color, text):
     "gray": Fore.LIGHTBLACK_EX
 }
     color_code = color_map.get(color.lower(), Fore.RESET)
+    return(f"{color_code}{text}{Style.RESET_ALL}")
+
+def highlight_text(color, text):
+    highlight_map = {
+    "red": Back.RED,
+    "blue": Back.BLUE,
+    "green": Back.GREEN,
+    "yellow": Back.YELLOW,
+    "brown": Back.YELLOW,
+    "purple": Back.MAGENTA,
+    "pink": Back.MAGENTA,
+    "black": Back.BLACK,
+    "white": Back.WHITE,
+    "gray": Back.LIGHTBLACK_EX
+}
+    color_code = highlight_map.get(color.lower(), Fore.RESET)
     return(f"{color_code}{text}{Style.RESET_ALL}")
 
 def make_battle_card(pokemon):
@@ -53,10 +69,25 @@ def make_battle_card(pokemon):
     for i in range(len(str(pokemon["weight"]))):
         battle_card[3].append(str(pokemon["weight"])[i])
 
+    max_length = max(len(battle_card[0]), len(battle_card[1]), len(battle_card[2]), len(battle_card[3]))
+
+    for lists in battle_card:
+        while len(lists) < max_length:
+            lists.append(" ")
+
+    battle_card.append(list(" " for _ in range(max_length)))
+    battle_card.append(list(highlight_text(pokemon["color"], " ") for _ in range(max_length + 2)))
+
+    battle_card.insert(0, list(" " for _ in range(max_length)))
+    battle_card.insert(0, list(highlight_text(pokemon["color"], " ") for _ in range(max_length + 2)))
+
+    for lists in battle_card:
+        lists.insert(0, highlight_text(pokemon["color"], "  "))
+        lists.append(highlight_text(pokemon["color"], "  "))
+        
+
     for stat in battle_card:
         print("".join(stat))
 
-for pokemon in pokemon_data:
-    if pokemon["weight"] == 69:
-        make_battle_card(pokemon)
-        print("\n")
+
+make_battle_card(pokemon_data[5])
