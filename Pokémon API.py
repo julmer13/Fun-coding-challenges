@@ -52,30 +52,30 @@ def make_battle_card(pokemon):
 
     for l in range(len(pokemon["types"])):
         for i in range(len(str(pokemon["types"][l]))):
-            battle_card[1].append(str(pokemon["types"][l])[i])
+            battle_card[1].append(color_text(pokemon["color"], str(pokemon["types"][l])[i]))
         if l < len(pokemon["types"]) - 1:
             battle_card[1].append(",")
             battle_card[1].append(" ")
 
     for i in range(len(str(pokemon["hp"]))):
-        battle_card[2].insert(5 + i, str(pokemon["hp"])[i])
+        battle_card[2].insert(5 + i, color_text(pokemon["color"], str(pokemon["hp"])[i]))
 
     for i in range(len(str(pokemon["attack"]))):
-        battle_card[2].append(str(pokemon["attack"])[i])
+        battle_card[2].append(color_text(pokemon["color"], str(pokemon["attack"])[i]))
 
     for i in range(len(str(pokemon["height"]))):
-        battle_card[3].insert(9 + i,str(pokemon["height"])[i])
+        battle_card[3].insert(9 + i, color_text(pokemon["color"], str(pokemon["height"])[i]))
 
     for i in range(len(str(pokemon["weight"]))):
-        battle_card[3].append(str(pokemon["weight"])[i])
+        battle_card[3].append(color_text(pokemon["color"], str(pokemon["weight"])[i]))
 
     max_length = max(len(battle_card[0]), len(battle_card[1]), len(battle_card[2]), len(battle_card[3]))
 
     for lists in battle_card:
-        while len(lists) < max_length:
+        while len(lists) < max_length + 2:
             lists.append(" ")
 
-    battle_card.append(list(" " for _ in range(max_length)))
+    battle_card.append(list(" " for _ in range(max_length + 2)))
     battle_card.append(list(highlight_text(pokemon["color"], " ") for _ in range(max_length + 2)))
 
     battle_card.insert(0, list(" " for _ in range(max_length)))
@@ -84,10 +84,14 @@ def make_battle_card(pokemon):
     for lists in battle_card:
         lists.insert(0, highlight_text(pokemon["color"], "  "))
         lists.append(highlight_text(pokemon["color"], "  "))
-        
+
+    battle_card[1].insert(len(battle_card[2]) // 2, "  ")
+    battle_card[5].pop(len(battle_card[5]) - 2)    
 
     for stat in battle_card:
         print("".join(stat))
 
 
-make_battle_card(pokemon_data[5])
+for pokeomon in range(51):
+    make_battle_card(pokemon_data[pokeomon])
+    print("\n")
