@@ -57,22 +57,3 @@ else:
     with open(filename, "w", encoding="utf-8") as f:
         json.dump(pokemon_data, f, ensure_ascii=False, indent=2)
     print(f"Saved {len(pokemon_data)} Pokémon data to '{filename}'.")
-
-
-
-# #def things
-# def print_colored_text(color, text):
-#     color_map = {
-#     "red": Fore.RED,
-#     "blue": Fore.BLUE,
-#     "green": Fore.GREEN,
-#     "yellow": Fore.YELLOW,
-#     "brown": Fore.YELLOW,
-#     "purple": Fore.MAGENTA,
-#     "pink": Fore.MAGENTA,
-#     "black": Fore.BLACK,
-#     "white": Fore.WHITE,
-#     "gray": Fore.LIGHTBLACK_EX
-# }
-#     color_code = color_map.get(color.lower(), Fore.RESET)
-#     print(f"{color_code}{text}{Style.RESET_ALL}")
