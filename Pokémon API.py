@@ -8,6 +8,9 @@ with open("Pokémon_character_stats.json", "r", encoding="utf-8") as f:
 
 
 #def things
+def clear_screen():
+    print("\033c", end="")
+
 def color_text(color, text):
     color_map = {
     "red": Fore.RED,
@@ -43,7 +46,7 @@ def highlight_text(color, text):
 def make_battle_card(pokemon):
     battle_card = [
         [" ", "N", "a", "m", "e", ":", " "],
-        [" ", "T", "y", "p", "e", "s", ":", " "],
+        [" ", "T", "y", "p", "e", "(", "s", ")", ":", " "],
         [" ", "H", "P", ":", " ", " ", "A", "t", "t", "a", "c", "k", ":", " "],
         [" ", "H", "e", "i", "g", "h", "t", ":", " ", " ", "W", "e", "i", "g", "h", "t", ":" " "],
     ]
@@ -91,7 +94,34 @@ def make_battle_card(pokemon):
     for stat in battle_card:
         print("".join(stat))
 
+def searcher(type, value):
+    items_found = 0
+    if type != "name" and type != "types":
+        for pokemon in pokemon_data:
+            if pokemon[type] == value:
+                make_battle_card(pokemon)
+                print("\n")
+                items_found += 1
+    elif type == "types":
+        for pokemon in pokemon_data:
+            for types in pokemon["types"]:
+                if types == value:
+                    make_battle_card(pokemon)
+                    print("\n")
+                    items_found += 1
+    elif type == "name":
+        for pokemon in pokemon_data:
+            if value.lower() in pokemon["name"]:
+                make_battle_card(pokemon)
+                print("\n")
+                items_found += 1
+        print(f"found {items_found} instance of pokémon with {value} in their {type}.")
+        return None
+    else:
+        print("invalid search type")
+        return None
+    print(f"found {items_found} instance of pokémon with {value} as their {type}.")
 
-for pokeomon in range(51):
-    make_battle_card(pokemon_data[pokeomon])
-    print("\n")
+clear_screen()
+for pokemon in range(int(input(f"Top number: "))):
+    make_battle_card(pokemon_data[pokemon])
