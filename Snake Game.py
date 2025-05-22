@@ -5,10 +5,9 @@ import tty
 import termios
 import select
 import shutil
-import os
 import random
 
-os.system('cls' if os.name == 'nt' else 'clear')
+print("\033c", end="")
 grid_spaces = "  "
 other_spaces = "  "
 join_space = ""
@@ -135,7 +134,7 @@ try:
             if end_time - start_time < speed:
                 time.sleep(max(0, speed - (time.perf_counter() - start_time)))
             
-            os.system('cls' if os.name == 'nt' else 'clear')
+            print("\033c", end="")
 
             for row in grid:
                 #print the grid
@@ -167,7 +166,7 @@ try:
                     grid[current_places[-1]][current_places[-2]] = make_colors(other_spaces, "green")
                 points_seen.add(point) 
 
-        os.system('cls' if os.name == 'nt' else 'clear')
+        print("\033c", end="")
 
         add_game_over(grid, size)
 

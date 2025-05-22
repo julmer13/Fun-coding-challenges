@@ -46,7 +46,7 @@ def move_bars(grid, new_number, first_list, length):
     grid[midpoint][2] = "-"
 
 #clear the screen and welcome the user
-os.system('cls' if os.name == 'nt' else 'clear')
+print("\033c", end="")
 input_number = int(input(f"Give me the top/bottom value for a wave of numbers: "))
 list_size = int(input(f"What size do you want the list to be: "))
 speed = float(input(f"how fast do you want the numbers to go acroos the screen: "))
@@ -83,7 +83,7 @@ for times in range((list_size // input_number) + 2):
 try:
     while True:
         for i in range(-1, (len(numbers_to_use) * -1) - 1, -1):
-            os.system('cls' if os.name == 'nt' else 'clear')
+            print("\033c", end="")
 
             for row in grid:
                 print(gap.join(row))
