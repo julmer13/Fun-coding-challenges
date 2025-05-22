@@ -1,5 +1,11 @@
 #import things
 from colorama import Fore, Style, init
+import json
+
+#Get the file I need
+with open("Pokémon_character_stats.json", "r", encoding="utf-8") as f:
+    pokemon_data = json.load(f)
+
 
 #def things
 def color_text(color, text):
@@ -18,4 +24,6 @@ def color_text(color, text):
     color_code = color_map.get(color.lower(), Fore.RESET)
     return(f"{color_code}{text}{Style.RESET_ALL}")
 
-print(color_text("red", "red"))
+for pokemon in pokemon_data:
+    if pokemon["name"] == "pikachu":
+        print(color_text(pokemon["color"], pokemon["name"]))
