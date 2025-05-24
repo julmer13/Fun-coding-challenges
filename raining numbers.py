@@ -6,7 +6,7 @@ import time
 import math
 
 #clear the screen
-os.system('cls' if os.name == 'nt' else 'clear')
+print("\033c", end="")
 
 #def things
 def get_terminal_size():
@@ -47,7 +47,7 @@ falling_numbers = []
 try:
     while True:
         #clear the screen
-        os.system('cls' if os.name == 'nt' else 'clear')
+        print("\033c", end="")
 
         #make grid
         grid = [[" " for _ in range(width)] for _ in range(height)]
