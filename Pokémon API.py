@@ -145,11 +145,11 @@ def searcher(type, value):
                     items_found += 1
     elif type == "name":
         for pokemon in pokemon_data:
-            if value.lower() in pokemon["name"]:
+            if value.lower() in str(pokemon["name"]).lower():
                 make_battle_card(pokemon)
                 print("\n")
                 items_found += 1
-        print(f"Found {items_found} instance of pokémon with {value} in their {type}.\n")
+        print(f"Found {items_found} instance of pokémon with {value} as / in their {type}.\n")
         return None
     else:
         print("Invalid search type")
@@ -227,7 +227,10 @@ try:
                 clear_screen()
             page_view(page_number)
         if not valid:
+            clear_screen()
             print(f"Invalid responce try again.\n")
+            view = "page"
+            page_view(page_number)
         print(options(view))
         choice = input(f"Please choose one: ")
         valid = True
@@ -251,33 +254,43 @@ try:
                 page_view(page_number)
                 print(options("searcher"))
                 view = "battle card"
-                search_type = change_av_to_full(input(f"What do you want to search by: "))
-                if search_type != "name" and search_type != "types":
-                    search_value = int(input(f"What do you want {search_type} to be: "))
-                elif search_type == "name":
-                    search_value = input(f"What to you want the name to be / contain: ")
+                search_type = input(f"What do you want to search by: ")
+                if search_type.lower() in ["n", "t", "hp", "a", "he", "w"]:
+                    search_type = change_av_to_full(search_type)
+                    if search_type != "name" and search_type != "types":
+                        search_value = int(input(f"What do you want {search_type} to be: "))
+                    elif search_type == "name":
+                        search_value = input(f"What to you want the name to be / contain: ")
+                    else:
+                        search_value = input(f"What type are are you searching for: ")
+                    clear_screen()
+                    searcher(search_type, search_value)
                 else:
-                    search_value = input(f"What type are are you searching for: ")
-                clear_screen()
-                searcher(search_type, search_value)
+                    valid = False
             else:
                 valid = False
         elif view == "battle card":
             if choice.lower() == "p":
                 view = "page"
-            else:
+            elif choice.lower() == "s":
                 clear_screen()
                 print(options("searcher"))
                 view = "battle card"
-                search_type = change_av_to_full(input(f"What do you want to search by: "))
-                if search_type != "name" and search_type != "types":
-                    search_value = int(input(f"What do you want {search_type} to be: "))
-                elif search_type == "name":
-                    search_value = input(f"What to you want the name to be / contain: ")
+                search_type = input(f"What do you want to search by: ")
+                if search_type.lower() in ["n", "t", "hp", "a", "he", "w"]:
+                    search_type = change_av_to_full(search_type)
+                    if search_type != "name" and search_type != "types":
+                        search_value = int(input(f"What do you want {search_type} to be: "))
+                    elif search_type == "name":
+                        search_value = input(f"What to you want the name to be / contain: ")
+                    else:
+                        search_value = input(f"What type are are you searching for: ")
+                    clear_screen()
+                    searcher(search_type, search_value)
                 else:
-                    search_value = input(f"What type are are you searching for: ")
-                clear_screen()
-                searcher(search_type, search_value)
+                    valid = False
+            else:
+                valid = False
         welcome = False
 except KeyboardInterrupt:
     clear_screen()
