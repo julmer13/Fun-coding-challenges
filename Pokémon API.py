@@ -6,10 +6,44 @@ import json
 with open("Pokémon_character_stats.json", "r", encoding="utf-8") as f:
     pokemon_data = json.load(f)
 
+for pokemon in pokemon_data:
+    pokemon["name"] = str(pokemon["name"]).capitalize()
 
 #def things
 def clear_screen():
     print("\033c", end="")
+
+def change_av_to_full(value):
+    picks = {
+        "n": "name",
+        "t": "types",
+        "hp": "hp",
+        "a": "attack",
+        "he": "height",
+        "w": "weight"
+    }
+    return picks[value.lower()]
+
+def options(view):
+    if view == "page":
+        return f"""Enter one of the following:\n
+S to search the Pokédex.\n
+N to go to the next page.\n
+P to go to the previous page.\n
+Ctrl + C to end the program.\n"""
+    elif view == "battle card":
+        return f"""Enter one of the following:\n
+S to keep searching.\n
+P to go back to page view.\n
+Ctrl + C to end the program.\n"""
+    elif view == "searcher":
+        return f"""Pick what you want to search by:\n
+N to search by name\n
+T to search by type\n
+HP to search by HP value\n
+A to search by attack value\n
+He to search by height value\n
+W to search by weight value\n"""
 
 def color_text(color, text):
     color_map = {
@@ -115,12 +149,12 @@ def searcher(type, value):
                 make_battle_card(pokemon)
                 print("\n")
                 items_found += 1
-        print(f"found {items_found} instance of pokémon with {value} in their {type}.")
+        print(f"Found {items_found} instance of pokémon with {value} in their {type}.\n")
         return None
     else:
-        print("invalid search type")
+        print("Invalid search type")
         return None
-    print(f"found {items_found} instance of pokémon with {value} as their {type}.")
+    print(f"Found {items_found} instance of pokémon with {value} as their {type}.\n")
 
 def page_view(page_number):
     page_card = [
@@ -132,7 +166,7 @@ def page_view(page_number):
             for i in range(len(str(pokemon_data[p + offset_index]["name"]))):
                 page_card[p].append(color_text(pokemon_data[p + offset_index]["color"], str(pokemon_data[p + offset_index]["name"])[i]))
     else:
-        for p in range(1, 13):
+        for p in range(1, 12):
             for i in range(len(str(pokemon_data[p + offset_index]["name"]))):
                 page_card[p].append(color_text(pokemon_data[p + offset_index]["color"], str(pokemon_data[p + offset_index]["name"])[i]))
     
@@ -180,3 +214,71 @@ def page_view(page_number):
         print("".join(line))
 
 #main program
+clear_screen()
+print(f"Welcome to Pokédex\n")
+welcome = True
+valid = True
+page_number = 1
+view = "page"
+try:
+    while True:
+        if view == "page":
+            if not welcome:
+                clear_screen()
+            page_view(page_number)
+        if not valid:
+            print(f"Invalid responce try again.\n")
+        print(options(view))
+        choice = input(f"Please choose one: ")
+        valid = True
+        if view == "page":
+            if choice.lower() == "n":
+                page_number += 1
+                if page_number == 36:
+                    page_number = 1
+                elif page_number == 0:
+                    page_number = 35
+                clear_screen()
+            elif choice.lower() == "p":
+                page_number -= 1
+                if page_number == 36:
+                    page_number = 1
+                elif page_number == 0:
+                    page_number = 35
+                clear_screen()
+            elif choice.lower() == "s":
+                clear_screen()
+                page_view(page_number)
+                print(options("searcher"))
+                view = "battle card"
+                search_type = change_av_to_full(input(f"What do you want to search by: "))
+                if search_type != "name" and search_type != "types":
+                    search_value = int(input(f"What do you want {search_type} to be: "))
+                elif search_type == "name":
+                    search_value = input(f"What to you want the name to be / contain: ")
+                else:
+                    search_value = input(f"What type are are you searching for: ")
+                clear_screen()
+                searcher(search_type, search_value)
+            else:
+                valid = False
+        elif view == "battle card":
+            if choice.lower() == "p":
+                view = "page"
+            else:
+                clear_screen()
+                print(options("searcher"))
+                view = "battle card"
+                search_type = change_av_to_full(input(f"What do you want to search by: "))
+                if search_type != "name" and search_type != "types":
+                    search_value = int(input(f"What do you want {search_type} to be: "))
+                elif search_type == "name":
+                    search_value = input(f"What to you want the name to be / contain: ")
+                else:
+                    search_value = input(f"What type are are you searching for: ")
+                clear_screen()
+                searcher(search_type, search_value)
+        welcome = False
+except KeyboardInterrupt:
+    clear_screen()
+    print("Good bye!")
