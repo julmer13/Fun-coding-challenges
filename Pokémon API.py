@@ -295,6 +295,7 @@ try:
                 view = "page"
             elif choice.lower() == "s":
                 clear_screen()
+                searcher(search_type, search_value)
                 print(options("searcher"))
                 view = "battle card"
                 search_type = input(f"What do you want to search by: ")
