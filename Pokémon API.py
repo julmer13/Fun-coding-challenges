@@ -161,12 +161,12 @@ def page_view(page_number):
         [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []
     ]
     offset_index = (page_number - 1) * 32
-    if page_number != 35:
+    if page_number != (len(pokemon_data) // 32) + 1:
         for p in range(1, 17):
             for i in range(len(str(pokemon_data[p + offset_index]["name"]))):
                 page_card[p].append(color_text(pokemon_data[p + offset_index]["color"], str(pokemon_data[p + offset_index]["name"])[i]))
     else:
-        for p in range(1, 12):
+        for p in range(1, (len(pokemon_data) % 32)):
             for i in range(len(str(pokemon_data[p + offset_index]["name"]))):
                 page_card[p].append(color_text(pokemon_data[p + offset_index]["color"], str(pokemon_data[p + offset_index]["name"])[i]))
     
@@ -180,28 +180,49 @@ def page_view(page_number):
             line.append(" ")
 
     offset_index += 16
-    if page_number != 35:
+    if page_number != (len(pokemon_data) // 32) + 1:
         for p in range(1, 17):
             for i in range(len(str(pokemon_data[p + offset_index]["name"]))):
                 page_card[p].append(color_text(pokemon_data[p + offset_index]["color"], str(pokemon_data[p + offset_index]["name"])[i]))
+    else:
+        if (len(pokemon_data) % 32) - 16 >= 1:
+            for p in range(1, (len(pokemon_data) % 32)):
+                for i in range(len(str(pokemon_data[p + offset_index]["name"]))):
+                    page_card[p].append(color_text(pokemon_data[p + offset_index]["color"], str(pokemon_data[p + offset_index]["name"])[i]))
 
     for line in page_card:
         while len(line) < (max_length * 2) + 3:
             line.append(" ")
 
-    page_card[0][len(page_card[0]) - 1] = "5"
-    page_card[0][len(page_card[0]) - 2] = "3"
-    page_card[0][len(page_card[0]) - 3] = "/"
+    what_to_show = str(((len(pokemon_data) // 32) + 1))[::-1] + "/"
+    for l in range(len(what_to_show)):
+        page_card[0][len(page_card[0]) - (1 + l)] = what_to_show[l]
     if len(str(page_number)) == 2:
         for number in range(len(str(page_number)) - 1, -1, -1):
-            page_card[0][len(page_card[0]) - (4 + number)] = str(page_number)[1 - number]
+            page_card[0][len(page_card[0]) - (len(what_to_show) + 1 + number)] = str(page_number)[1 - number]
     else:
-        page_card[0][len(page_card[0]) - 4] = str(page_number)
+        page_card[0][len(page_card[0]) - (len(what_to_show) + 1)] = str(page_number)
+
+    page_card.insert(1, list(" " for _ in range((max_length * 2) + 3)))
+
+    if page_number != (len(pokemon_data) // 32) + 1:
+        what_to_show = str((page_number) * 32)[::-1] + "-"
+    else:
+        what_to_show = str((((page_number - 1) * 32)) + (len(pokemon_data) % 32))[::-1] + "-"
+    for l in range(len(what_to_show)):
+        page_card[1][len(page_card[1]) - (1 + l)] = what_to_show[l]
+    offset = len(what_to_show)
+    what_to_show = str(((page_number - 1) * 32) + 1)[::-1]
+    for l in range(len(what_to_show)):
+        page_card[1][len(page_card[1]) - (offset + 1 + l)] = what_to_show[l]
+    offset += len(what_to_show)
+    what_to_show = str("showing: ")[::-1]
+    for l in range(len(what_to_show)):
+        page_card[1][len(page_card[1]) - (offset + 1 + l)] = what_to_show[l]
 
     page_card.append(list(" " for _ in range((max_length * 2) + 6)))
     page_card.append(list(highlight_text("white", " ") for _ in range((max_length * 2) + 6)))
 
-    page_card.insert(1, list(" " for _ in range((max_length * 2) + 3)))
     page_card.insert(0, list(highlight_text("white", " ") for _ in range((max_length * 2) + 6)))
 
     for lists in range(len(page_card)):
@@ -237,17 +258,17 @@ try:
         if view == "page":
             if choice.lower() == "n":
                 page_number += 1
-                if page_number == 36:
+                if page_number == (len(pokemon_data) // 32) + 2:
                     page_number = 1
                 elif page_number == 0:
-                    page_number = 35
+                    page_number = (len(pokemon_data) // 32) + 1
                 clear_screen()
             elif choice.lower() == "p":
                 page_number -= 1
-                if page_number == 36:
+                if page_number == (len(pokemon_data) // 32) + 2:
                     page_number = 1
                 elif page_number == 0:
-                    page_number = 35
+                    page_number = (len(pokemon_data) // 32) + 1
                 clear_screen()
             elif choice.lower() == "s":
                 clear_screen()
