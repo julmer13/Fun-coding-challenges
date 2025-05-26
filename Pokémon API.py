@@ -80,10 +80,12 @@ def highlight_text(color, text):
 def make_battle_card(pokemon):
     battle_card = [
         [" ", "N", "a", "m", "e", ":", " "],
-        [" ", "T", "y", "p", "e", "(", "s", ")", ":", " "],
+        [" ", "T", "y", "p", "e", ":", " "],
         [" ", "H", "P", ":", " ", " ", "A", "t", "t", "a", "c", "k", ":", " "],
         [" ", "H", "e", "i", "g", "h", "t", ":", " ", " ", "W", "e", "i", "g", "h", "t", ":" " "],
     ]
+    if len(pokemon["types"]) >= 2:
+        battle_card[1].insert(5, "s")
     for i in range(len(str(pokemon["name"]))):
         battle_card[0].append(color_text(pokemon["color"], str(pokemon["name"])[i]))
 
@@ -316,4 +318,4 @@ try:
         welcome = False
 except KeyboardInterrupt:
     clear_screen()
-    print("Good bye!")
+    print("Thank you for using the Pokédex.")
