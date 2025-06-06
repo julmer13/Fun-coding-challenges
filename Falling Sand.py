@@ -19,8 +19,6 @@ def get_terminal_size():
     ter_size = shutil.get_terminal_size(fallback=(80, 24)) 
     grid = [[empty_space for _ in range((ter_size.columns // 2) - 2)] for _ in range(ter_size.lines - 3)]
     return grid
-    color_code = highlight_map.get(color.lower(), Fore.RESET)
-    return(f"{color_code}{text}{Style.RESET_ALL}")
 
 def move_squares_down_one(grid):
     for line in range(len(grid) - 2, -1, -1):
