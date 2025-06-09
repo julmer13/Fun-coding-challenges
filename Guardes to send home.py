@@ -36,23 +36,34 @@ def show_names(name_list, number_of_poeple_going_home):
             clear_screen()
             for guard in range(len(guards_going_home)):
                 name = guards_going_home[guard]
-                print(f"{number_list[str(guard + 1)].capitalize()} guard going home is: {name}")
-            person_going_home = name_list[random.randint(0, len(name_list) - 1)]
-            print(f"{number_list[str(person + 1)].capitalize()} guard going home is: {name_list[random.randint(0, len(name_list) - 1)]}")
+                print(f"The {number_list[str(guard + 1)].capitalize()} guard going home is: {name}")
+            print(f"The {number_list[str(person + 1)].capitalize()} guard going home is: {name_list[random.randint(0, len(name_list) - 1)]}")
             time.sleep(0.03)
-        guards_going_home.append(pick_random(name_list))
+        guards_going_home.append(pick_random(name_list).capitalize())
+    clear_screen()
+    for guard in range(len(guards_going_home)):
+        name = guards_going_home[guard]
+        print(f"The {number_list[str(guard + 1)].capitalize()} guard going home is: {name}")
     return guards_going_home
 
 clear_screen()
-print("Give me the names of the guards one by one then tpye the amout of times you want there name in the list (e.g.: david 4), type done when you're done: ")
+
+Base_number = 4
+
+print(f"Give me the names of the guards one by one then tpye the amout of times you want there name in the list (e.g.: david 4),\nif you don't put in a second number it will be set to {Base_number}\ntpye done when you are done:")
 lines = [] 
 while True:
     line = input()
     if line.upper() == "DONE":
         break
     line = line.split()
-    for _ in range(int(line[1])):
-        lines.append(line[0])
+    if len(line) >= 2:
+        for _ in range(int(line[1])):
+            lines.append(line[0])
+    else:
+        for _ in range(Base_number):
+            lines.append(line[0])
 clear_screen()
 number_of_people_going_home = int(input(f"How many gaurds are you sending home: "))
-show_names(lines, number_of_people_going_home)
+names = show_names(lines, number_of_people_going_home)
+print(f"\nThe guards going home are: {', '.join(names)}")
