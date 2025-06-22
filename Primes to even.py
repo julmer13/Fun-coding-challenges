@@ -17,6 +17,8 @@ def is_prime(n):
 def number_test(number):
     if number == 2:
         return [0, 2]
+    if number == 4:
+        return [2, 2]
     for d in range(3, number, 2):
         if is_prime(d) and is_prime(number - d):
             return [d, number - d]
