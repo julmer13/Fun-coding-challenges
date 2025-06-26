@@ -12,13 +12,13 @@ game_state = False
 is_valid = False
 guesses = 0
 guess_list = []
-color_abbrs = ["re", "pl", "gr", "ye", "wh", "bl"]
+color_abbrs = ["re", "pu", "gr", "ye", "wh", "bl"]
 
 #def things
 def highlight_text(color, text):
     highlight_map = {
     "re": Back.RED,
-    "pl": Back.BLUE,
+    "pu": Back.BLUE,
     "gr": Back.GREEN,
     "ye": Back.YELLOW,
     "wh": Back.WHITE,
@@ -89,7 +89,7 @@ def make_answer():
 
 def welcome():
     print("\033c", end="")
-    input(f"""Welcome to Mindsweeper!
+    input(f"""Welcome to Mastermind!
 To play put in four of the abbreviations for the colors split by spaces.
 If you don't know a abbreviation for a color it is at the bottom of the board.
 After each guess {black_pegs}and {white_pegs}symbols will show up.
