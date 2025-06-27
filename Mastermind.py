@@ -12,17 +12,17 @@ game_state = False
 is_valid = False
 guesses = 0
 guess_list = []
-color_abbrs = ["re", "pu", "gr", "ye", "wh", "bl"]
+color_abbrs = ["r", "p", "g", "y", "w", "b"]
 
 #def things
 def highlight_text(color, text):
     highlight_map = {
-    "re": Back.RED,
-    "pu": Back.BLUE,
-    "gr": Back.GREEN,
-    "ye": Back.YELLOW,
-    "wh": Back.WHITE,
-    "bl": Back.BLACK,
+    "r": Back.RED,
+    "p": Back.BLUE,
+    "g": Back.GREEN,
+    "y": Back.YELLOW,
+    "w": Back.WHITE,
+    "b": Back.BLACK,
     "grey": Back.LIGHTBLACK_EX
 }
     color_code = highlight_map.get(color.lower(), Fore.RESET)
@@ -75,7 +75,7 @@ def make_board(guesses, answer):
     row.append(highlight_text("grey", empty_space))
     for abbr in color_abbrs:
         row.append(highlight_text("grey", empty_space))
-        row.append(highlight_text(abbr, abbr.upper()))
+        row.append(highlight_text(abbr, (abbr.upper()) + " "))
     row.append(highlight_text("grey", empty_space * 2))
     board.append(row)
     board.append(highlight_text("grey", white_space) * 15)
