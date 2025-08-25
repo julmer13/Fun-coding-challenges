@@ -1,3 +1,8 @@
+# imports
+import pandas as pd
+import numpy as np
+from pathlib import Path
+
 #def things
 def colorizer(n):
     colors = {
@@ -100,90 +105,42 @@ def solve_it():
                 return False  # No number fits, trigger backtracking
     return True  # All cells are filled
 
+# === Excel load (reads 11x11 with separator rows/cols at 4 and 8; blanks->0 in memory) ===
+excel_path = str(Path(__file__).with_name("Soduko.xlsx"))
+df_raw = pd.read_excel(excel_path, header=None)
+
+# keep rows/cols (zero-based) 0,1,2,4,5,6,8,9,10  (skip 3 and 7)
+keep = [0, 1, 2, 4, 5, 6, 8, 9, 10]
+df_sel = df_raw.iloc[keep, keep].copy()
+
+# convert to numeric; non-numeric -> NaN
+num = pd.to_numeric(df_sel.stack(), errors="coerce").unstack()
+
+# blanks -> 0 for solver
+num = num.fillna(0).astype(int)
+
+#make the grid from Excel
+grid = num.values.tolist()
+grid_two = [row[:] for row in grid]
 
 #housekeeping
-is_this_correct = 0
+is_this_correct = "1"   # skip manual entry since we’re loading from Excel
 
 #welcome the user
 print("\033c", end="")
-print("Welcome to sudoku solver." + "\n" + "\n" + "First you will put in the numbers in the right places." + "\n" + "\n" + "Then I will solve the sudoku and tell you the answer." + "\n" + "\n" + "To put in number first put in the column, then the row, lastly put in the number you want it to be." + "\n" + "\n" + "You don't have to fill all the spots, just leave them blank if they don't have anything in them." + "\n" + "\n" + "To reset a spot just put in a 0." + "\n" + "\n" + "After puting in all the number press enter to check them." + "\n")
-input(f"press enter to contiune: ")
-
-#make the grid
-grid = [[" " for _ in range(9)] for _ in range(9)]
-grid_two = [[" " for _ in range(9)] for _ in range(9)]
+print("Welcome to sudoku solver.\n\nLoaded puzzle from Soduko.xlsx.\n")
 
 #print the result of the changes
 print("\033c", end="")
 
 print(f"     1   2   3     4   5   6     7   8   9")
-#print the grid as it is now
 for i in range(9):
     if (i + 1) % 3 == 0:
         print(f"    ___ ___ ___   ___ ___ ___   ___ ___ ___\n {i + 1} | {grid[i][0]} | {grid[i][1]} | {grid[i][2]} | | {grid[i][3]} | {grid[i][4]} | {grid[i][5]} | | {grid[i][6]} | {grid[i][7]} | {grid[i][8]} | \n    ___ ___ ___   ___ ___ ___   ___ ___ ___") 
     else:
         print(f"    ___ ___ ___   ___ ___ ___   ___ ___ ___\n {i + 1} | {grid[i][0]} | {grid[i][1]} | {grid[i][2]} | | {grid[i][3]} | {grid[i][4]} | {grid[i][5]} | | {grid[i][6]} | {grid[i][7]} | {grid[i][8]} |")
- 
 
-
-#get the sudoku from the player
-while is_this_correct != "1":
-    number = 0
-
-    #whilr the player is puting in points:
-    while type(number) != str:
-
-        #get the point and where it is going
-        number = input("Enter the column it's on first, then the row, and then the number you want it to be.(to reset a number put in a 0): ")
-
-        #split number up
-        point = [str(digit) for digit in str(number)]
-        #if is is three points do this
-        if len(point) >= 3:
-            #resest number
-            number = 0
-            #find and place the number
-            grid[int(point[1]) - 1][int(point[0]) - 1] = point[2]
-
-            #clear the screen
-            print("\033c", end="")
-
-            print(f"     1   2   3     4   5   6     7   8   9")
-            #print the grid as it is now
-            for i in range(9):
-                if (i + 1) % 3 == 0:
-                    print(f"    ___ ___ ___   ___ ___ ___   ___ ___ ___\n {i + 1} | {grid[i][0]} | {grid[i][1]} | {grid[i][2]} | | {grid[i][3]} | {grid[i][4]} | {grid[i][5]} | | {grid[i][6]} | {grid[i][7]} | {grid[i][8]} | \n    ___ ___ ___   ___ ___ ___   ___ ___ ___") 
-                else:
-                    print(f"    ___ ___ ___   ___ ___ ___   ___ ___ ___\n {i + 1} | {grid[i][0]} | {grid[i][1]} | {grid[i][2]} | | {grid[i][3]} | {grid[i][4]} | {grid[i][5]} | | {grid[i][6]} | {grid[i][7]} | {grid[i][8]} |")
- 
-
-        #else set number to a str
-        else: 
-            number = " "
-
-    #clear the screen
-    print("\033c", end="")
-
-    #print the grid as it is now
-    for i in range(9):
-        if (i + 1) % 3 == 0:
-            print(f"  ___ ___ ___   ___ ___ ___   ___ ___ ___\n | {grid[i][0]} | {grid[i][1]} | {grid[i][2]} | | {grid[i][3]} | {grid[i][4]} | {grid[i][5]} | | {grid[i][6]} | {grid[i][7]} | {grid[i][8]} | \n  ___ ___ ___   ___ ___ ___   ___ ___ ___") 
-        else:
-            print(f"  ___ ___ ___   ___ ___ ___   ___ ___ ___\n | {grid[i][0]} | {grid[i][1]} | {grid[i][2]} | | {grid[i][3]} | {grid[i][4]} | {grid[i][5]} | | {grid[i][6]} | {grid[i][7]} | {grid[i][8]} |")
- 
-
-    #ask if they want to change it more
-    is_this_correct = input("is this the board you want to use, 1 for yes 0 for no: ")
-
-#set the grid up
-for x in range(9):
-    for y in range(9):
-        if grid[x][y] != " " and grid[x][y] != 0 and len(grid[x][y]) < 2:
-            grid[x][y] = int(grid[x][y])
-            grid_two[x][y] = int(grid[x][y])
-        else:
-            grid[x][y] = int(0)
-            grid_two[x][y] = int(0)
+# (manual input block removed since we’re using Excel)
 
 #clear the screen
 print("\033c", end="")
@@ -215,10 +172,18 @@ if solve_it() and is_valid_board():
             print(f"  ___ ___ ___   ___ ___ ___   ___ ___ ___\n | {grid[i][0]} | {grid[i][1]} | {grid[i][2]} | | {grid[i][3]} | {grid[i][4]} | {grid[i][5]} | | {grid[i][6]} | {grid[i][7]} | {grid[i][8]} | \n  ___ ___ ___   ___ ___ ___   ___ ___ ___") 
         else:
             print(f"  ___ ___ ___   ___ ___ ___   ___ ___ ___\n | {grid[i][0]} | {grid[i][1]} | {grid[i][2]} | | {grid[i][3]} | {grid[i][4]} | {grid[i][5]} | | {grid[i][6]} | {grid[i][7]} | {grid[i][8]} |")
-#else say ir can't be solved
 
+    # === reset Excel AFTER success: numbers -> 0, blanks preserved; separators stay blank ===
+    reset_raw = df_raw.copy()
+    for ri, r in enumerate(keep):
+        for ci, c in enumerate(keep):
+            val = pd.to_numeric(df_sel.iat[ri, ci], errors="coerce")
+            reset_raw.iat[r, c] = 0 if not pd.isna(val) else np.nan
+
+    with pd.ExcelWriter(excel_path, engine="openpyxl") as writer:
+        reset_raw.to_excel(writer, index=False, header=False)
+
+#else say it can't be solved
 else:
-    #clear the screen
     print("\033c", end="")
-    #print the message
     print(f"This sudoku cann't be solved")
