@@ -1,5 +1,4 @@
-#import things
-import os
+#get fill name
 
 #def things
 def colorizer(n):
@@ -108,7 +107,7 @@ def solve_it():
 is_this_correct = 0
 
 #welcome the user
-os.system('cls' if os.name == 'nt' else 'clear')
+print("\033c", end="")
 print("Welcome to sudoku solver." + "\n" + "\n" + "First you will put in the numbers in the right places." + "\n" + "\n" + "Then I will solve the sudoku and tell you the answer." + "\n" + "\n" + "To put in number first put in the column, then the row, lastly put in the number you want it to be." + "\n" + "\n" + "You don't have to fill all the spots, just leave them blank if they don't have anything in them." + "\n" + "\n" + "To reset a spot just put in a 0." + "\n" + "\n" + "After puting in all the number press enter to check them." + "\n")
 input(f"press enter to contiune: ")
 
@@ -117,7 +116,7 @@ grid = [[" " for _ in range(9)] for _ in range(9)]
 grid_two = [[" " for _ in range(9)] for _ in range(9)]
 
 #print the result of the changes
-os.system('cls' if os.name == 'nt' else 'clear')
+print("\033c", end="")
 
 print(f"     1   2   3     4   5   6     7   8   9")
 #print the grid as it is now
@@ -149,7 +148,7 @@ while is_this_correct != "1":
             grid[int(point[1]) - 1][int(point[0]) - 1] = point[2]
 
             #clear the screen
-            os.system('cls' if os.name == 'nt' else 'clear')
+            print("\033c", end="")
 
             print(f"     1   2   3     4   5   6     7   8   9")
             #print the grid as it is now
@@ -165,7 +164,7 @@ while is_this_correct != "1":
             number = " "
 
     #clear the screen
-    os.system('cls' if os.name == 'nt' else 'clear')
+    print("\033c", end="")
 
     #print the grid as it is now
     for i in range(9):
@@ -189,7 +188,7 @@ for x in range(9):
             grid_two[x][y] = int(0)
 
 #clear the screen
-os.system('cls' if os.name == 'nt' else 'clear')
+print("\033c", end="")
 
 #print the grid as it is now
 for i in range(9):
@@ -210,7 +209,7 @@ if solve_it() and is_valid_board():
                 grid[x][y] = colorizer(grid[x][y])
 
     #clear the screen
-    os.system('cls' if os.name == 'nt' else 'clear')
+    print("\033c", end="")
 
     #print the grid as it is now
     for i in range(9):
@@ -222,6 +221,6 @@ if solve_it() and is_valid_board():
 
 else:
     #clear the screen
-    os.system('cls' if os.name == 'nt' else 'clear')
+    print("\033c", end="")
     #print the message
     print(f"This sudoku cann't be solved")
