@@ -1,4 +1,11 @@
+#import things
+import pandas as pd
+import numpy as np
+
 #get fill name
+file_name = "Soduko.xlsx"
+sheet_name = 0 
+rows_and_cols_to_keep = [0, 1, 2, 4, 5, 6, 8, 9, 10]
 
 #def things
 def colorizer(n):
@@ -109,7 +116,7 @@ is_this_correct = 0
 #welcome the user
 print("\033c", end="")
 print("Welcome to sudoku solver." + "\n" + "\n" + "First you will put in the numbers in the right places." + "\n" + "\n" + "Then I will solve the sudoku and tell you the answer." + "\n" + "\n" + "To put in number first put in the column, then the row, lastly put in the number you want it to be." + "\n" + "\n" + "You don't have to fill all the spots, just leave them blank if they don't have anything in them." + "\n" + "\n" + "To reset a spot just put in a 0." + "\n" + "\n" + "After puting in all the number press enter to check them." + "\n")
-input(f"press enter to contiune: ")
+input(f"press enter when you are ready: ")
 
 #make the grid
 grid = [[" " for _ in range(9)] for _ in range(9)]
@@ -132,39 +139,37 @@ for i in range(9):
 while is_this_correct != "1":
     number = 0
 
-    #whilr the player is puting in points:
-    while type(number) != str:
+    excel_path = "Soduko.xlsx"
 
-        #get the point and where it is going
-        number = input("Enter the column it's on first, then the row, and then the number you want it to be.(to reset a number put in a 0): ")
+    # read raw sheet (11x11 with separators)
+    df_raw = pd.read_excel(excel_path, header=None)
 
-        #split number up
-        point = [str(digit) for digit in str(number)]
-        #if is is three points do this
-        if len(point) >= 3:
-            #resest number
-            number = 0
-            #find and place the number
-            grid[int(point[1]) - 1][int(point[0]) - 1] = point[2]
+    # rows/cols to keep (skip separators at 4 and 8)
+    keep = [0, 1, 2, 4, 5, 6, 8, 9, 10]
 
-            #clear the screen
-            print("\033c", end="")
+    # slice out 9x9 puzzle cells
+    df_sel = df_raw.iloc[keep, keep].copy()
 
-            print(f"     1   2   3     4   5   6     7   8   9")
-            #print the grid as it is now
-            for i in range(9):
-                if (i + 1) % 3 == 0:
-                    print(f"    ___ ___ ___   ___ ___ ___   ___ ___ ___\n {i + 1} | {grid[i][0]} | {grid[i][1]} | {grid[i][2]} | | {grid[i][3]} | {grid[i][4]} | {grid[i][5]} | | {grid[i][6]} | {grid[i][7]} | {grid[i][8]} | \n    ___ ___ ___   ___ ___ ___   ___ ___ ___") 
-                else:
-                    print(f"    ___ ___ ___   ___ ___ ___   ___ ___ ___\n {i + 1} | {grid[i][0]} | {grid[i][1]} | {grid[i][2]} | | {grid[i][3]} | {grid[i][4]} | {grid[i][5]} | | {grid[i][6]} | {grid[i][7]} | {grid[i][8]} |")
- 
+    # convert to numbers, blanks -> NaN
+    num = pd.to_numeric(df_sel.stack(), errors="coerce").unstack()
 
-        #else set number to a str
-        else: 
-            number = " "
+    # fill NaN with 0 for solver
+    num = num.fillna(0).astype(int)
 
-    #clear the screen
-    print("\033c", end="")
+    # put into solver grids
+    grid = num.values.tolist()
+    grid_two = [row[:] for row in grid]
+
+    # reset the Excel: numbers -> 0, blanks stay blank
+    reset_raw = df_raw.copy()
+    for ri, r in enumerate(keep):
+        for ci, c in enumerate(keep):
+            val = pd.to_numeric(df_sel.iat[ri, ci], errors="coerce")
+            reset_raw.iat[r, c] = 0 if not pd.isna(val) else np.nan
+
+    # write back
+    with pd.ExcelWriter(excel_path, engine="openpyxl") as writer:
+        reset_raw.to_excel(writer, index=False, header=False)
 
     #print the grid as it is now
     for i in range(9):
