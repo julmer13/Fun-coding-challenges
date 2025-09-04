@@ -1,9 +1,8 @@
 #import things
 import math
-import os
 
 #clear the screen
-os.system('cls' if os.name == 'nt' else 'clear')
+print("\033c", end="")
 
 #def things
 def is_prime(n):
@@ -94,7 +93,7 @@ try:
                     grid[h][e] = colorize(new_number, "green")
 
         #clear the screen
-        os.system('cls' if os.name == 'nt' else 'clear')
+        print("\033c", end="")
 
         for row in grid:
             #print the grid
