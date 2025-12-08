@@ -10,7 +10,7 @@ def get_terminal_size():
         return ter_size.lines
 
 # List of characters to use for ASCII art
-ASCII_CHARS = "@$B%8&WM#*oahkbdpqwmZ0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. "
+ASCII_CHARS = "@#%$&WM8BDQKHAXpqdbkhaowmZ0LCJUYcvunxrjft12345679~^*(_+-=[{\\|/<?;:'\",.!` "
 
 # Ask for the path (you can type it or drag the file into the terminal)
 path = input("Enter the path to your image file: ").strip()
@@ -35,11 +35,11 @@ image = image.convert("L")
 
 # Resize the image to lower the "resolution" of the ASCII art
 # You can adjust new_width to control how wide the output is
-new_width = (get_terminal_size() * 2) - 1
-original_width, original_height = image.size
+new_width = get_terminal_size()
+original_width, original_height = get_terminal_size(), get_terminal_size()
 aspect_ratio = original_height / original_width
 # The 0.5 factor compensates for terminal characters being taller than they are wide
-new_height = max(1, int(aspect_ratio * new_width * 0.5))
+new_height = max(1, int(aspect_ratio * new_width))
 image = image.resize((new_width, new_height))
 
 # Set up the table for the ASCII grid
@@ -68,4 +68,4 @@ for y in range(height):
 
 # Print the ASCII art
 for line in grid:
-    print("".join(line))
+    print(" ".join(line))
