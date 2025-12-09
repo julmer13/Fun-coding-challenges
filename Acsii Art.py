@@ -10,7 +10,7 @@ def get_terminal_size():
         return ter_size.lines
 
 # List of characters to use for ASCII art
-ASCII_CHARS = "@#%$&WM8BDQKHAXpqdbkhaowmZ0LCJUYcvunxrjft12345679~^*(_+-=[{\\|/<?;:'\",.!` "
+ASCII_CHARS = "@#%$&WM8BDQKHAXpqdbkhaowmZ0LCJUYcvunxrjft12345679~^*()_+-=[]{}\\|/<>?;:'\",.!` "
 
 # Ask for the path (you can type it or drag the file into the terminal)
 path = input("Enter the path to your image file: ").strip()
