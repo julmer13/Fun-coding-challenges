@@ -8,10 +8,6 @@ color_space = "  "
 white_space = "  "
 black_pegs = ": "
 white_pegs = ". "
-game_state = False
-is_valid = False
-guesses = 0
-guess_list = []
 color_abbrs = ["r", "p", "g", "y", "w", "b"]
 
 #def things
@@ -103,6 +99,10 @@ welcome()
 try:
     while True:
         answer = make_answer()
+        game_state = False
+        is_valid = False
+        guesses = 0
+        guess_list = []
         while not game_state and guesses < 10:
             game_state = make_board(guess_list, answer)
             if is_valid:
