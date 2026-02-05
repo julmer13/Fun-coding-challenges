@@ -98,9 +98,10 @@ After each guess {black_pegs}and {white_pegs}symbols will show up.
 The answer may contain two of one color.
 Press enter to contiune: """)
 
+welcome()
+
 try:
     while True:
-        welcome()
         answer = make_answer()
         while not game_state and guesses < 10:
             game_state = make_board(guess_list, answer)
@@ -128,8 +129,8 @@ try:
             print(f"You won! You guessed the answer of {''.join(row)} in {guesses} guesses.")
         else:
             print(f"Sorry, you could not guess the answer of {' '.join(row)} in 10 guesses.")
-        print(f"Thanks for playing!")
-        input(f"press enter to play again or Ctrl + C to end the program: ")
+        print(f"Thanks for playing!", end=" ")
+        input(f"Press enter to play again or Ctrl + C to end the program: ")
 
 except KeyboardInterrupt:
     print("\033c", end="")
