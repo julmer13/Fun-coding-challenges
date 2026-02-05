@@ -98,32 +98,38 @@ After each guess {black_pegs}and {white_pegs}symbols will show up.
 The answer may contain two of one color.
 Press enter to contiune: """)
 
-welcome()
-answer = make_answer()
-while not game_state and guesses < 10:
-    game_state = make_board(guess_list, answer)
-    if is_valid:
-        print("Last guess was invalid please try again:")
-        is_valid = False
-    if game_state == False:
-        guess = (input(f"give me the four abbreviation of colors for your guess split by spaces: ")).split(" ")
-        if len(guess) != 4:
-            is_valid = True
-        for color in guess:
-            if color.lower() not in color_abbrs:
-                is_valid = True
-            color = color.lower()
-        if is_valid:
-            continue
-        guesses += 1
-        guess_list.append(guess)
+try:
+    while True:
+        welcome()
+        answer = make_answer()
+        while not game_state and guesses < 10:
+            game_state = make_board(guess_list, answer)
+            if is_valid:
+                print("Last guess was invalid please try again:")
+                is_valid = False
+            if game_state == False:
+                guess = list(input(f"give me the four abbreviation of colors for your guess: "))
+                if len(guess) != 4:
+                    is_valid = True
+                for color in guess:
+                    if color.lower() not in color_abbrs:
+                        is_valid = True
+                    color = color.lower()
+                if is_valid:
+                    continue
+                guesses += 1
+                guess_list.append(guess)
 
-game_state = make_board(guess_list, answer)
-row = []
-for abbr in answer:
-    row.append(highlight_text(abbr, abbr.upper()))
-if guesses < 10:
-    print(f"You won! You guessed the answer of {' '.join(row)} in {guesses} guesses.")
-else:
-    print(f"Sorry, you could not guess the answer of {' '.join(row)} in 10 guesses.")
-print(f"Thanks for playing!")
+        game_state = make_board(guess_list, answer)
+        row = []
+        for abbr in answer:
+            row.append(highlight_text(abbr, "  "))
+        if guesses < 10:
+            print(f"You won! You guessed the answer of {''.join(row)} in {guesses} guesses.")
+        else:
+            print(f"Sorry, you could not guess the answer of {' '.join(row)} in 10 guesses.")
+        print(f"Thanks for playing!")
+        input(f"press enter to play again or Ctrl + C to end the program: ")
+
+except KeyboardInterrupt:
+    print("\033c", end="")
