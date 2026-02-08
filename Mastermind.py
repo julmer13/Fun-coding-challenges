@@ -8,7 +8,7 @@ color_space = "  "
 white_space = "  "
 black_pegs = ": "
 white_pegs = ". "
-color_abbrs = ["r", "p", "g", "y", "w", "b"]
+color_abbrs = ["r", "p", "g", "y", "w", "b", "k", "c"]
 
 #def things
 def highlight_text(color, text):
@@ -19,6 +19,8 @@ def highlight_text(color, text):
     "y": Back.YELLOW,
     "w": Back.WHITE,
     "b": Back.BLACK,
+    "k": Back.LIGHTMAGENTA_EX, 
+    "c": Back.CYAN,
     "grey": Back.LIGHTBLACK_EX
 }
     color_code = highlight_map.get(color.lower(), Fore.RESET)
@@ -39,7 +41,7 @@ def make_board(guesses, answer):
                 board[lines][color] = highlight_text(board[lines][color], color_space)
     for lines in board:
         for ws in range(0, (len(lines) * 2) + 1, 2):
-            lines.insert(ws, highlight_text("grey", white_space))
+            lines.insert(ws, highlight_text("grey", white_space))     
         lines.append(highlight_text("grey", white_space))  
     for ws in range(0, (len(board) * 2) + 1, 2):
         board.insert(ws, [highlight_text("grey", white_space) for _ in range(14)])
@@ -67,14 +69,16 @@ def make_board(guesses, answer):
         line += 2
     for lines in board:
         lines.append(highlight_text("grey", white_space))
+        lines.append(highlight_text("grey", white_space))
     row = []
-    row.append(highlight_text("grey", empty_space))
     for abbr in color_abbrs:
         row.append(highlight_text("grey", empty_space))
         row.append(highlight_text(abbr, (abbr.upper()) + " "))
-    row.append(highlight_text("grey", empty_space * 2))
+    row.append(highlight_text("grey", empty_space))
+    for lines in board:
+        lines.insert(0, (highlight_text("grey", white_space)))
     board.append(row)
-    board.append(highlight_text("grey", white_space) * 15)
+    board.append(highlight_text("grey", white_space) * 17)
     print("\033c", end="")
     for line in board:
         print("".join(line))
