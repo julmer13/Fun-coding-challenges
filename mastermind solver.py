@@ -96,7 +96,6 @@ def highlight_text(color, text):
 
 def scorer(list_of_possible_solutions):
     big_list = make_all_possible_guesses()
-    current_best = math.inf
 
     best_answers = []
     best_entropy = -math.inf
